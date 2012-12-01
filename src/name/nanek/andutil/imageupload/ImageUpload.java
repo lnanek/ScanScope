@@ -2,6 +2,9 @@ package name.nanek.andutil.imageupload;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
+import java.util.Map;
 
 import name.nanek.andutil.imageupload.SentCountingMultiPartEntity.SentCountListener;
 
@@ -34,7 +37,7 @@ public class ImageUpload extends AsyncTask<Void, Integer, HttpResult> {
 
 	private static final String USER_AGENT = "ScanScope";
 
-	private static final String SERVER_URL = "http://server.neatocode.com/scanscope/uploader.php";
+	private static final Uri SERVER_URL = Uri.parse("http://server.neatocode.com/scanscope/uploader.php");
 
 	private final File mFile;
 
@@ -45,12 +48,15 @@ public class ImageUpload extends AsyncTask<Void, Integer, HttpResult> {
 	private long mTotalSize;
 	
 	private OnImageUploadListener mListener;
+	
+	private Map<String, String> mParams;
 
 	public ImageUpload(final Context aContext, 
-			final OnImageUploadListener aListener, final File aFile) {
+			final OnImageUploadListener aListener, final File aFile, final Map<String, String> aParams) {
 		mListener = aListener;
 		mFile = aFile;
 		mContext = aContext;
+		mParams = aParams;
 	}
 
 	@Override
@@ -74,12 +80,30 @@ public class ImageUpload extends AsyncTask<Void, Integer, HttpResult> {
 		return bin;
 
 	}
+	
+	public static String encode(String input) {
+		if ( null == input ) {
+			return "";
+		}
+		
+		try {
+			return URLEncoder.encode(input.toString(),"UTF-8");
+		} catch (UnsupportedEncodingException e) {
+			e.printStackTrace();
+			return "";
+		} 
+	}
 
 	@Override
 	protected HttpResult doInBackground(Void... unused) {
 		
 		final HttpClient httpClient = AndroidHttpClient.newInstance(USER_AGENT, mContext);
-		final HttpPost httpPost = new HttpPost(SERVER_URL);
+		
+		final String url = SERVER_URL.toString() + "?board=" + encode(mParams.get("board")) + "&email=" + encode(mParams.get("email"));
+
+		Log.i("ScanScope", "using url = " + url);
+		
+		final HttpPost httpPost = new HttpPost(url);
 
 		try {
 			SentCountingMultiPartEntity multipartContent = new SentCountingMultiPartEntity(new SentCountListener() {

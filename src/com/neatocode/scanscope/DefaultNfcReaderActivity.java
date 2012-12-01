@@ -1,6 +1,8 @@
 package com.neatocode.scanscope;
 
 import java.io.File;
+import java.util.HashMap;
+import java.util.Map;
 
 import name.nanek.andutil.Api8AccountManagerUtil;
 import name.nanek.andutil.imageupload.ImageUpload;
@@ -32,6 +34,10 @@ public class DefaultNfcReaderActivity extends NfcReaderActivity implements
 	private static final String TAG = NfcReaderActivity.class.getName();
 
 	protected Message message;
+	
+	private String mBoard;
+	
+	private String mEmail;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -39,8 +45,8 @@ public class DefaultNfcReaderActivity extends NfcReaderActivity implements
 
 		setContentView(R.layout.reader);
 
-		String email = Api8AccountManagerUtil.getAccountManagerEmail(this);
-		Log.i("ScanScope", "email: " + email);
+		mEmail = Api8AccountManagerUtil.getAccountManagerEmail(this);
+		Log.i("ScanScope", "email: " + mEmail);
 		
 		setDetecting(true);
 
@@ -48,6 +54,12 @@ public class DefaultNfcReaderActivity extends NfcReaderActivity implements
 
 		Log.i("ScanScope", "Started with intent action: "
 				+ getIntent().getAction());
+		
+		// TODO remember last board to send to?
+		// TODO use any tag ID, not just our own board format?
+		if ( null != getIntent().getData() ) {
+			mBoard = getIntent().getData().getQueryParameter("board");
+		}
 
 		takePicture();
 
@@ -176,8 +188,12 @@ public class DefaultNfcReaderActivity extends NfcReaderActivity implements
 			imageView.setImageBitmap(bitmap);
 
 			//photo.delete();
+			
+			Map<String, String> params = new HashMap<String, String>();
+			params.put("board", mBoard);
+			params.put("email", mEmail);
 
-			new ImageUpload(this, this, photo).execute();
+			new ImageUpload(this, this, photo, params).execute();
 
 		}
 	}
