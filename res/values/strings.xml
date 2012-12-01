@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">NDEF Tools boilerplate</string>
+    <string name="app_name">Scan Scope</string>
 
     <string name="androidApplication">Android Application</string>
     <string name="androidApplicationPackageName">Package name</string>
