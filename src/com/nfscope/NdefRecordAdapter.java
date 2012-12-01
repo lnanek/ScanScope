@@ -17,7 +17,7 @@
  * 
  ****************************************************************************/
 
-package com.neatocode.scanscope;
+package com.nfscope;
 
 import java.util.List;
 

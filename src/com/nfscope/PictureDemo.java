@@ -12,7 +12,7 @@
     http://commonsware.com/AdvAndroid
  */
 
-package com.neatocode.scanscope;
+package com.nfscope;
 
 import java.io.File;
 import java.io.FileOutputStream;

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.neatocode.scanscope"
+    package="com.nfscope"
     android:versionCode="2"
     android:versionName="1.2" >
 
@@ -42,14 +42,13 @@
                 <action android:name="android.nfc.action.NDEF_DISCOVERED" />
 
                 <data
-                    android:host="server.neatocode.com"
-                    android:pathPrefix="/scanscope"
+                    android:host="nfscope.com"
                     android:scheme="http" />
 
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
-        <activity android:name="com.neatocode.scanscope.DefaultNfcBeamWriterActivity" >
+        <activity android:name=".DefaultNfcBeamWriterActivity" >
         </activity>
     </application>
 

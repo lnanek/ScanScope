@@ -37,7 +37,7 @@ public class ImageUpload extends AsyncTask<Void, Integer, HttpResult> {
 
 	private static final String USER_AGENT = "ScanScope";
 
-	private static final Uri SERVER_URL = Uri.parse("http://server.neatocode.com/scanscope/uploader.php");
+	private static final Uri SERVER_URL = Uri.parse("http://nfscope.com/uploader.php");
 
 	private final File mFile;
 

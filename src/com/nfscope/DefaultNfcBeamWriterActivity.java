@@ -1,4 +1,4 @@
-package com.neatocode.scanscope;
+package com.nfscope;
 
 import java.nio.charset.Charset;
 

@@ -1,4 +1,4 @@
-package com.neatocode.scanscope;
+package com.nfscope;
 
 import java.io.File;
 import java.util.HashMap;
