@@ -13,35 +13,36 @@
         if ( !$request_board ) {
             $files = glob('/home/lnanek/nfscope.com/*/*.jpg');
             ?>
-                <h1><center> pics from scanning </center></h1>
+                <h1><center> pics from scanning collages </center></h1>
             <?php
         } else {
             $files = glob($BASE_DIR . $request_board . '/*.jpg');
             ?>
-                <h1><center> pics from scanning <?= $request_board ?> </center></h1>
+                <h1><center> pics from scanning <?= $request_board ?> collage </center></h1>
             <?php
         }
                 
         if ( 0 == count($files) ) {
             ?>
-                <h2> No one yet. Be the first! </h2>
+                <h2> <center> No one yet. <a href="http://play.google.com/store/apps/details?id=com.nfscope">Be the first!</a> </center> </h2>
             <?php
     
         }
     
-    
-        foreach ($files as $filename) {
+        ?> <center> <?php
+            foreach ($files as $filename) {
             
-            $path = explode('/',$filename);
-            $lastDir = array_pop($path);
-            $lastDir = array_pop($path);
+                $path = explode('/',$filename);
+                $lastDir = array_pop($path);
+                $lastDir = array_pop($path);
             
-            $link = $lastDir . '/' . basename($filename);
+                $link = $lastDir . '/' . basename($filename);
         
-            echo '<a href="' . $link . '"><img src="' . $link . '" width="50" /></a>';
-        }
+                echo '<a href="' . $link . '"><img src="' . $link . '" width="50" /></a>';
+            }
 
     ?>
+        </center>
     </body>
 
 </html>

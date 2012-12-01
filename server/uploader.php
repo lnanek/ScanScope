@@ -51,7 +51,8 @@ if ( !$destination_exists ) {
 	}
 }
 
-// Let client know where it is stored.
-echo "http://nfscope.com/" . $request_board . '/' . $fileHash . $UPLOAD_EXTENSION;
+	// Let client know where it is stored.
+	//echo "http://nfscope.com/" . $request_board . '/' . $fileHash . $UPLOAD_EXTENSION;
+	echo "http://nfscope.com/?board=" . $request_board;
 
 ?>

@@ -28,7 +28,7 @@ import android.util.Log;
 public class ImageUpload extends AsyncTask<Void, Integer, HttpResult> {
 	
 	public interface OnImageUploadListener {
-		void sendBackgroundImage(Uri uploadLocation);
+		void onImageUploaded(Uri uploadLocation);
 	}
 	
 	private static final String LOG_TAG = ImageUpload.class.getSimpleName();
@@ -145,7 +145,7 @@ public class ImageUpload extends AsyncTask<Void, Integer, HttpResult> {
 			try {
 				final Uri uploadLocation = Uri.parse(aResult.mResponse);
 				if ( null != uploadLocation ) {
-					mListener.sendBackgroundImage(uploadLocation);
+					mListener.onImageUploaded(uploadLocation);
 					return;
 				}
 			} catch (Exception e) {

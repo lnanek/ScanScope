@@ -28,8 +28,10 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Toast;
 
-public class DefaultNfcReaderActivity extends NfcReaderActivity implements
+public class StartActivity extends NfcReaderActivity implements
 		OnImageUploadListener {
+
+	public static final String LOG_TAG = "ScanScope";
 
 	private static final String TAG = NfcReaderActivity.class.getName();
 
@@ -38,40 +40,43 @@ public class DefaultNfcReaderActivity extends NfcReaderActivity implements
 	private String mBoard;
 	
 	private String mEmail;
+	
+	private Uri mData;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
 		setContentView(R.layout.reader);
-
 		mEmail = Api8AccountManagerUtil.getAccountManagerEmail(this);
-		Log.i("ScanScope", "email: " + mEmail);
 		
-		setDetecting(true);
-
-		Log.i("ScanScope", "Started with intent data: " + getIntent().getData());
-
-		Log.i("ScanScope", "Started with intent action: "
-				+ getIntent().getAction());
+		Log.i(LOG_TAG, "email: " + mEmail);
+		Log.i(LOG_TAG, "Started with intent data: " + getIntent().getData());
+		Log.i(LOG_TAG, "Started with intent action: " + getIntent().getAction());
 		
 		// TODO remember last board to send to?
 		// TODO use any tag ID, not just our own board format?
-		if ( null != getIntent().getData() ) {
+		mData = getIntent().getData();
+		if ( null != mData && !"".equals(mData.toString().trim() ) ) {
 			mBoard = getIntent().getData().getQueryParameter("board");
+			takePicture();
+		} else {
+			toast("Scan an NFScope collage to add your picture!");
+			//setDetecting(true);			
+			
 		}
-
-		takePicture();
-
+		setDetecting(false);			
+		
 	}
 
 	private void takePicture() {
-		Intent intent = new Intent(this, PictureDemo.class);
+		Intent intent = new Intent(this, CaptureImageActivity.class);
 		startActivity(intent);
 	}
 
 	@Override
 	public void readNdefMessage(Message message) {
+		Log.i(LOG_TAG, "readNdefMessage: " + message);
 
 		takePicture();
 
@@ -108,9 +113,6 @@ public class DefaultNfcReaderActivity extends NfcReaderActivity implements
 				}
 			}
 		}
-
-		// show in gui
-		showList();
 	}
 
 	@Override
@@ -147,25 +149,6 @@ public class DefaultNfcReaderActivity extends NfcReaderActivity implements
 		toast(getString(R.string.noNfcMessage));
 	}
 
-	private void showList() {
-		if (message != null && !message.isEmpty()) {
-
-			// display the message
-			// show in gui
-			ArrayAdapter<? extends Object> adapter = new NdefRecordAdapter(
-					this, message);
-			ListView listView = (ListView) findViewById(R.id.recordListView);
-			listView.setAdapter(adapter);
-		} else {
-			clearList();
-		}
-	}
-
-	private void clearList() {
-		ListView listView = (ListView) findViewById(R.id.recordListView);
-		listView.setAdapter(null);
-	}
-
 	public void toast(String message) {
 		Toast toast = Toast.makeText(this, message, Toast.LENGTH_LONG);
 		toast.setGravity(Gravity.CENTER_HORIZONTAL | Gravity.CENTER_VERTICAL,
@@ -179,10 +162,14 @@ public class DefaultNfcReaderActivity extends NfcReaderActivity implements
 
 		ImageView imageView = (ImageView) findViewById(R.id.imageView);
 
-		File photo = new File(Environment.getExternalStorageDirectory(),
-				"photo.jpg");
+		File photo = new File(getFilesDir(), "photo.jpg");
 
 		if (photo.exists()) {
+			
+			// TODO read the data from the detected tag
+			
+			setDetecting(false);
+			
 			Bitmap bitmap = BitmapFactory.decodeFile(photo.getAbsolutePath());
 
 			imageView.setImageBitmap(bitmap);
@@ -199,8 +186,21 @@ public class DefaultNfcReaderActivity extends NfcReaderActivity implements
 	}
 
 	@Override
-	public void sendBackgroundImage(Uri uploadLocation) {
-		Log.i("ScanScope", "photo uploaded = " + uploadLocation);
+	public void onImageUploaded(Uri uploadLocation) {
+		File photo = new File(getFilesDir(), "photo.jpg");
+		if (photo.exists()) {
+			photo.delete();
+		}
+		
+		Log.i(LOG_TAG, "photo uploaded = " + uploadLocation);		
+		//if ( null != mData && !"".equals(mData.toString().trim() ) ) {
+			
+			Intent intent = new Intent(Intent.ACTION_VIEW);
+			//intent.setData(mData);
+			intent.setData(uploadLocation);
+			startActivity(intent);
+			finish();
+		//}
 	}
 
 }

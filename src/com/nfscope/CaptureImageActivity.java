@@ -38,7 +38,7 @@ import android.view.SurfaceView;
 import android.view.WindowManager;
 import android.widget.Toast;
 
-public class PictureDemo extends Activity {
+public class CaptureImageActivity extends Activity {
 
 	private static final int MAX_PICTURE_DIMENSIONS = 1024;
 
@@ -165,7 +165,7 @@ public class PictureDemo extends Activity {
 			} catch (Throwable t) {
 				Log.e("PreviewDemo-surfaceCallback",
 						"Exception in setPreviewDisplay()", t);
-				Toast.makeText(PictureDemo.this, t.getMessage(),
+				Toast.makeText(CaptureImageActivity.this, t.getMessage(),
 						Toast.LENGTH_LONG).show();
 			}
 
@@ -282,7 +282,7 @@ public class PictureDemo extends Activity {
 			}
 			
 			
-			File photo = new File(Environment.getExternalStorageDirectory(), "photo.jpg");
+			File photo = new File(getFilesDir(), "photo.jpg");
 
 			if (photo.exists()) {
 				photo.delete();
