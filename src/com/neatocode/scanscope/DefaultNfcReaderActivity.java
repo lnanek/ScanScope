@@ -2,6 +2,7 @@ package com.neatocode.scanscope;
 
 import java.io.File;
 
+import name.nanek.andutil.Api8AccountManagerUtil;
 import name.nanek.andutil.imageupload.ImageUpload;
 import name.nanek.andutil.imageupload.ImageUpload.OnImageUploadListener;
 
@@ -38,6 +39,9 @@ public class DefaultNfcReaderActivity extends NfcReaderActivity implements
 
 		setContentView(R.layout.reader);
 
+		String email = Api8AccountManagerUtil.getAccountManagerEmail(this);
+		Log.i("ScanScope", "email: " + email);
+		
 		setDetecting(true);
 
 		Log.i("ScanScope", "Started with intent data: " + getIntent().getData());

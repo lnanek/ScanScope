@@ -1,10 +1,7 @@
-# This subdomain is used as the backend server for apps, there's no public HTML.
 
 # Have browsers of root ask for index.html.
-DirectoryIndex index.html
+DirectoryIndex index.php
 
-# Redirect index.html to public HTML site.
-Redirect /aprenticalive2/uploads/index.html http://nanek.name/
 
 
 

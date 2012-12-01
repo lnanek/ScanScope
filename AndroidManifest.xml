@@ -7,7 +7,6 @@
     <uses-sdk android:minSdkVersion="10" />
 
     <uses-permission android:name="android.permission.NFC" />
-
     <uses-permission android:name="android.permission.INTERNET" />
 
     <uses-feature
@@ -23,37 +22,34 @@
 
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.GET_ACCOUNTS" />
+    <uses-permission android:name="android.permission.READ_PROFILE" />
+    <uses-permission android:name="android.permission.READ_CONTACTS" />
 
     <application
         android:icon="@drawable/ic_launcher"
-        android:label="@string/app_name" 
-        android:largeHeap="true"
-        >
+        android:label="@string/app_name"
+        android:largeHeap="true" >
         <activity android:name=".PictureDemo" >
         </activity>
-        <activity
-            android:name=".DefaultNfcReaderActivity"
-            >
+        <activity android:name=".DefaultNfcReaderActivity" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-            
             <intent-filter android:label="@string/app_name" >
                 <action android:name="android.nfc.action.NDEF_DISCOVERED" />
 
                 <data
                     android:host="server.neatocode.com"
-                    android:path="/scanscope"
+                    android:pathPrefix="/scanscope"
                     android:scheme="http" />
 
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
-            
         </activity>
-        <activity
-            android:name="com.neatocode.scanscope.DefaultNfcBeamWriterActivity"
-            >
+        <activity android:name="com.neatocode.scanscope.DefaultNfcBeamWriterActivity" >
         </activity>
     </application>
 

@@ -1,10 +1,6 @@
-# This subdomain is used as the backend server for apps, there's no public HTML.
 
 # Have browsers of root ask for index.html.
-DirectoryIndex index.html
-
-# Redirect index.html to public HTML site.
-Redirect /aprenticalive2/index.html http://nanek.name/
+DirectoryIndex index.php
 
 #Disable error documents so we see the real error.
 ErrorDocument 400 default
