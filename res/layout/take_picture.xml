@@ -1,7 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.view.SurfaceView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/preview"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     >
-</android.view.SurfaceView>
+	<android.view.SurfaceView xmlns:android="http://schemas.android.com/apk/res/android"
+	    android:id="@+id/preview"
+	    android:layout_width="match_parent"
+	    android:layout_height="match_parent"
+	    >
+	</android.view.SurfaceView>
+	<TextView
+	    android:id="@+id/countdown"
+	    android:textSize="30sp"
+	    android:layout_width="match_parent"
+	    android:layout_height="match_parent"
+		android:gravity="center"	    
+	    />
+</FrameLayout>

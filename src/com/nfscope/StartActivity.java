@@ -15,20 +15,18 @@ import org.ndeftools.externaltype.ExternalTypeRecord;
 import org.ndeftools.util.activity.NfcReaderActivity;
 import org.ndeftools.wellknown.TextRecord;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Environment;
 import android.util.Log;
 import android.view.Gravity;
-import android.widget.ArrayAdapter;
 import android.widget.ImageView;
-import android.widget.ListView;
 import android.widget.Toast;
 
-public class StartActivity extends NfcReaderActivity implements
+public class StartActivity extends Activity implements
 		OnImageUploadListener {
 
 	public static final String LOG_TAG = "ScanScope";
@@ -62,10 +60,11 @@ public class StartActivity extends NfcReaderActivity implements
 			takePicture();
 		} else {
 			toast("Scan an NFScope collage to add your picture!");
+			finish();
 			//setDetecting(true);			
 			
 		}
-		setDetecting(false);			
+		//setDetecting(false);			
 		
 	}
 
@@ -74,7 +73,7 @@ public class StartActivity extends NfcReaderActivity implements
 		startActivity(intent);
 	}
 
-	@Override
+	//@Override
 	public void readNdefMessage(Message message) {
 		Log.i(LOG_TAG, "readNdefMessage: " + message);
 
@@ -115,6 +114,7 @@ public class StartActivity extends NfcReaderActivity implements
 		}
 	}
 
+	/*
 	@Override
 	protected void readEmptyNdefMessage() {
 		toast(getString(R.string.readEmptyMessage));
@@ -148,12 +148,14 @@ public class StartActivity extends NfcReaderActivity implements
 	protected void onNfcFeatureNotFound() {
 		toast(getString(R.string.noNfcMessage));
 	}
-
-	public void toast(String message) {
-		Toast toast = Toast.makeText(this, message, Toast.LENGTH_LONG);
-		toast.setGravity(Gravity.CENTER_HORIZONTAL | Gravity.CENTER_VERTICAL,
-				0, 0);
+*/	
+	private void toast(final String message) {
+		Toast toast = 
+		Toast.makeText(this, message,
+				Toast.LENGTH_LONG);
+		toast.setGravity(Gravity.BOTTOM, 0, 0);
 		toast.show();
+		
 	}
 
 	@Override
@@ -168,7 +170,7 @@ public class StartActivity extends NfcReaderActivity implements
 			
 			// TODO read the data from the detected tag
 			
-			setDetecting(false);
+			//setDetecting(false);
 			
 			Bitmap bitmap = BitmapFactory.decodeFile(photo.getAbsolutePath());
 

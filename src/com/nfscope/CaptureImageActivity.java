@@ -29,13 +29,14 @@ import android.hardware.Camera;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Environment;
 import android.util.Log;
 import android.view.Display;
+import android.view.Gravity;
 import android.view.Surface;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.WindowManager;
+import android.widget.TextView;
 import android.widget.Toast;
 
 public class CaptureImageActivity extends Activity {
@@ -47,11 +48,16 @@ public class CaptureImageActivity extends Activity {
 	private Camera camera = null;
 	private boolean inPreview = false;
 	private boolean cameraConfigured = false;
+	private TextView textView;
+	private long mSecondsDelay = 3000;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.take_picture);
+		
+		textView = (TextView) findViewById(R.id.countdown);
+		textView.setText("" + mSecondsDelay/1000);
 
 		preview = (SurfaceView) findViewById(R.id.preview);
 		previewHolder = preview.getHolder();
@@ -165,8 +171,7 @@ public class CaptureImageActivity extends Activity {
 			} catch (Throwable t) {
 				Log.e("PreviewDemo-surfaceCallback",
 						"Exception in setPreviewDisplay()", t);
-				Toast.makeText(CaptureImageActivity.this, t.getMessage(),
-						Toast.LENGTH_LONG).show();
+				toast(t.getMessage());				
 			}
 
 			if (!cameraConfigured) {
@@ -188,14 +193,47 @@ public class CaptureImageActivity extends Activity {
 			}
 		}
 	}
+	
+	private void toast(final String message) {
+		Toast toast = 
+		Toast.makeText(CaptureImageActivity.this, message,
+				Toast.LENGTH_LONG);
+		toast.setGravity(Gravity.BOTTOM, 0, 0);
+		toast.show();
+		
+	}
 
 	private void startPreview() {
 		if (cameraConfigured && camera != null) {
 			camera.startPreview();
 			inPreview = true;
 
+			
+			textView.postDelayed(new Runnable() {
+
+				@Override
+				public void run() {
+					mSecondsDelay -= 200;
+					
+					if ( mSecondsDelay <= 0 ) {
+						mSecondsDelay = 0;
+						
+					}
+					textView.setText("" + mSecondsDelay / 1000);
+					
+					if ( mSecondsDelay <= 0 ) {
+						takePicture();
+					} else {
+						textView.postDelayed(this, 200);
+					}
+					
+					
+				}
+				
+			}, 200);
+			
 			// Take picture as soon as ready.
-			takePicture();
+			//takePicture();
 		}
 	}
 
