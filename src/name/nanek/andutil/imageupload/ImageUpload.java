@@ -99,7 +99,9 @@ public class ImageUpload extends AsyncTask<Void, Integer, HttpResult> {
 		
 		final HttpClient httpClient = AndroidHttpClient.newInstance(USER_AGENT, mContext);
 		
-		final String url = SERVER_URL.toString() + "?board=" + encode(mParams.get("board")) + "&email=" + encode(mParams.get("email"));
+		final String url = SERVER_URL.toString() 
+				+ "?board=" + encode(mParams.get("board")) 
+				+ "&email=" + encode(mParams.get("email"));
 
 		Log.i("ScanScope", "using url = " + url);
 		

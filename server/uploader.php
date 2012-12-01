@@ -2,8 +2,24 @@
 
 // Saves uploads as web accessible JPG files named by their SHA1 hash.
 
-$UPLOAD_DIR = "uploads/";
+$BASE_DIR = "/home/lnanek/nfscope.com/";
+$UPLOAD_DIR = "uploads";
 $UPLOAD_EXTENSION = ".jpg";
+    
+    $request_board = preg_replace("/[^A-Za-z0-9]/",'',$_REQUEST['board']);
+    if ( !$request_board ) {
+        $request_board = $UPLOAD_DIR;
+    }
+    
+    
+    $request_email = $_REQUEST['email'];
+    
+    $target_dir = $BASE_DIR . $request_board;
+    
+    if ( !file_exists($target_dir) ) {
+        mkdir($target_dir, 0775);
+    }
+    
 
 //echo 'Uploaded file is: ' . $_FILES['uploadedfile']['name'] . "\n";
 //echo 'Temp upload on server is: ' . $_FILES['uploadedfile']['tmp_name'] . "\n";
@@ -20,8 +36,10 @@ if ( !$upload_set || !$upload_exists ) {
 
 // Get hash and check if exists already.
 $fileHash = sha1_file($_FILES['uploadedfile']['tmp_name']);
-$fileDestination = $UPLOAD_DIR . $fileHash . $UPLOAD_EXTENSION;
+$fileDestination = $target_dir . '/' . $fileHash . $UPLOAD_EXTENSION;
 $destination_exists = file_exists($fileDestination);
+
+//echo 'dest: ' . $fileDestination . "\n\n";;
 
 // Save it if doesn't exist already.
 if ( !$destination_exists ) {
@@ -34,6 +52,6 @@ if ( !$destination_exists ) {
 }
 
 // Let client know where it is stored.
-echo "http://server.neatocode.com/scanscope/uploads/" . $fileHash . $UPLOAD_EXTENSION;
+echo "http://nfscope.com/" . $request_board . '/' . $fileHash . $UPLOAD_EXTENSION;
 
 ?>
