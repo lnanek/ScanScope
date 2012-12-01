@@ -1,5 +1,8 @@
 package com.neatocode.scanscope;
 
+import java.io.File;
+import java.io.FileOutputStream;
+
 import org.ndeftools.Message;
 import org.ndeftools.MimeRecord;
 import org.ndeftools.Record;
@@ -7,10 +10,15 @@ import org.ndeftools.externaltype.ExternalTypeRecord;
 import org.ndeftools.util.activity.NfcReaderActivity;
 import org.ndeftools.wellknown.TextRecord;
 
+import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.os.Environment;
 import android.util.Log;
 import android.view.Gravity;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -27,6 +35,11 @@ public class DefaultNfcReaderActivity extends NfcReaderActivity {
 		setContentView(R.layout.reader);
 		
 		setDetecting(true);
+		
+		
+		Intent intent = new Intent(this, PictureDemo.class);
+		startActivity(intent);
+		
 	}
 	
 	@Override
@@ -129,4 +142,25 @@ public class DefaultNfcReaderActivity extends NfcReaderActivity {
 		toast.show();
 	}
 
+	@Override
+	protected void onResume() {
+		super.onResume();
+
+		ImageView imageView = (ImageView) findViewById(R.id.imageView);
+		
+	      File photo=
+	              new File(Environment.getExternalStorageDirectory(),
+	                       "photo.jpg");
+
+	          if (photo.exists()) {
+	        	  Bitmap bitmap = BitmapFactory.decodeFile(photo.getAbsolutePath());
+	        	  
+	        	  imageView.setImageBitmap(bitmap);
+	        	  
+	            photo.delete();
+	          }
+	}
+
+	
+	
 }
